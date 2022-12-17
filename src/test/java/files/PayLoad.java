@@ -26,7 +26,7 @@ public class PayLoad {
     public static String coursePrice(){
         return "{\n" +
                 "\"dashboard\": {\n" +
-                "\"purchaseAmount\": 910,\n" +
+                "\"purchaseAmount\": 1162,\n" +
                 "\"website\": \"rahulshettyacademy.com\"\n" +
                 "},\n" +
                 "\"courses\": [\n" +
@@ -52,5 +52,16 @@ public class PayLoad {
                 "}\n" +
                 "  ]\n" +
                 "}";
+    }
+
+    public static String addBook(String aisle,String isbn){
+
+        return "{\n" +
+                "\n" +
+                "\"name\":\"Learn Appium Automation with Java\",\n" +
+                "\"isbn\":\""+isbn+"\",\n" +
+                "\"aisle\":\""+aisle+"\",\n" +
+                "\"author\":\"John foe\"\n" +
+                "}\n";
     }
 }
