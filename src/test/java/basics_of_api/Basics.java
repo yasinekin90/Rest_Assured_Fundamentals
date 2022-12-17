@@ -1,6 +1,7 @@
 package basics_of_api;
 
 import files.PayLoad;
+import files.ReusableMethods;
 import io.restassured.RestAssured;
 import io.restassured.path.json.JsonPath;
 import org.testng.Assert;
@@ -8,7 +9,7 @@ import org.testng.Assert;
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.equalTo;
 
-public class Basics {
+public class Basics extends ReusableMethods {
 
     public static void main(String[] args) {
         //validate if Add Place API is working as expected
@@ -19,7 +20,7 @@ public class Basics {
         //Add place ->Update Place with New Adress ->Get Place to validate if New adress is present in response
 
         //ADDPLACE
-        RestAssured.baseURI="https://rahulshettyacademy.com";
+        RestAssured.baseURI = "https://rahulshettyacademy.com";
         String response = given().log().all()
                 .queryParam("key", "qaclick123")
                 .header("Content-Type", "application/json")
@@ -31,30 +32,23 @@ public class Basics {
                 .header("Server", "Apache/2.4.41 (Ubuntu)")
                 .extract().response().asString();
 
-       // System.out.println(response);
 
-        JsonPath js=new JsonPath(response);//for parsing json
-
-        String placeId=js.getString("place_id");
-
-        //System.out.println(placeId);
-
-
+        String placeId = rawToJson(response).getString("place_id");
 
         //Update Place
 
-        String newAddress="60 winter walk, USA";
+        String newAddress = "60 winter walk, USA";
 
         given().log().all()
-                .queryParam("key","qaclick123")
-                .header("Content-Type","application/json")
+                .queryParam("key", "qaclick123")
+                .header("Content-Type", "application/json")
                 .body("{\n" +
-                        "\"place_id\":\""+placeId+"\",\n" +
-                        "\"address\":\""+newAddress+"\",\n" +
+                        "\"place_id\":\"" + placeId + "\",\n" +
+                        "\"address\":\"" + newAddress + "\",\n" +
                         "\"key\":\"qaclick123\"\n" +
                         "}\n")
                 .when().put("/maps/api/place/update/json")
-                .then().assertThat().statusCode(200).body("msg",equalTo("Address successfully updated"));
+                .then().assertThat().statusCode(200).body("msg", equalTo("Address successfully updated"));
 
 
         //GET PLACE
@@ -65,18 +59,15 @@ public class Basics {
                 .then().assertThat().log().all().statusCode(200)
                 .extract().response().asString();
 
-          JsonPath jsonPath=new JsonPath(getPlaceResponse);
 
-        String actualAddress = jsonPath.getString("address");
+        String actualAddress = rawToJson(getPlaceResponse).getString("address");
 
-       // System.out.println(actualAddress);
+        // System.out.println(actualAddress);
 
-        Assert.assertEquals(newAddress,actualAddress);
+        Assert.assertEquals(newAddress, actualAddress);
 
 
     }
-
-
 
 
 }
