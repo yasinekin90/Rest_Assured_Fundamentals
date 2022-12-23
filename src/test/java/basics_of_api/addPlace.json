@@ -1,0 +1,16 @@
+{
+  "location": {
+    "lat": -38.383456,
+    "lng": 33.427360
+  },
+  "accuracy": 50,
+  "name": "Yasko Baba333",
+  "phone_number": "(+90)5556502233",
+  "address": "29, side layout, cohen 09",
+  "types": [
+    "shoe park",
+    "shop"
+  ],
+  "website": "http://google.com",
+  "language": "Turkish-TR"
+}

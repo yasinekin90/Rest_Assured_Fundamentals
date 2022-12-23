@@ -3,15 +3,18 @@ package basics_of_api;
 import files.PayLoad;
 import files.ReusableMethods;
 import io.restassured.RestAssured;
-import io.restassured.path.json.JsonPath;
 import org.testng.Assert;
 
-import static io.restassured.RestAssured.*;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
+import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 
-public class Basics extends ReusableMethods {
+public class ReadinJsonFromFile extends ReusableMethods {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         //validate if Add Place API is working as expected
         //given -all input details
         //when-submit the API-resource,http method
@@ -25,7 +28,7 @@ public class Basics extends ReusableMethods {
         String response = given().log().all()
                 .queryParam("key", "qaclick123")
                 .header("Content-Type", "application/json")
-                .body(PayLoad.AddPlace())
+                .body(new String(Files.readAllBytes(Paths.get("C:\\Users\\user\\IdeaProjects\\RestAssuredTutorials\\src\\test\\java\\basics_of_api\\addPlace.json"))))
                 .when().post("/maps/api/place/add/json")
                 .then().log().all().assertThat()
                 .statusCode(200)
